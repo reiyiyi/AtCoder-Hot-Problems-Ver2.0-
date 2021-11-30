@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<form action="" method="get">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="mb-3">
+                    <label for="filter" class="form-label">AC数:</label>
+                    <select name="filter" class="form-select">
+                        {% if request.GET.filter == "" or request.GET.filter == None %}
+                        <option value="" selected>---</option>
+                        {% else %}
+                        <option value="">---</option>
+                        {% endif %}
+                        {% for filter, filter_name in filter_list.items %}
+                        {% if filter == request.GET.filter %}
+                        <option value="{{ filter }}" selected>{{ filter_name }}</option>
+                        {% else %}
+                        <option value="{{ filter }}">{{ filter_name }}</option>
+                        {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="mb-3">
+                    <label for="period" class="form-label">集計期間(日):</label>
+                    <select name="period" class="form-select">
+                        {% if request.GET.period == "" or request.GET.period == None %}
+                        <option value="" selected>---</option>
+                        {% else %}
+                        <option value="">---</option>
+                        {% endif %}
+                        {% for period in period_list %}
+                        {% if period == request.GET.period %}
+                        <option value="{{ period }}" selected>{{ period }}</option>
+                        {% else %}
+                        <option value="{{ period }}">{{ period }}</option>
+                        {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <button type="submit" class="btn btn-danger">ランキング表示</button>
+            </div>
+        </div>
+    </div>
+</form>
+<hr>
+{% if request.GET.filter == "" or request.GET.period == "" or request.GET.filter == None or request.GET.period == None %}
+<p>AC数と集計期間を選択して、ランキングを見てみましょう</p>
+{% elif ranking_list|length == 0 %}
+<p style="text-align: right;">集計期間：{{ start_period }}～{{ end_period }}</p>
+<p>データが見つかりませんでした</p>
+{% else %}
+<p style="text-align: right;">集計期間：{{ start_period }}～{{ end_period }}</p>
+<table class="table table-striped" border="1">
+    <tr>
+        <th scope="col">順位</th>
+        <th scope="col">コンテスト名</th>
+        <th scope="col">問題名</th>
+        <th scope="col">コード数</th>
+    </tr>
+    {% for data in ranking_list %}
+    <tr>
+        <td>{{ forloop.counter }}位</td>
+        <td>{{ data.problem__contest_name }}</td>
+        <td>{{ data.problem__problem_name }}</td>
+        <td>{{ data.total }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endif %}
+{% endblock %}
