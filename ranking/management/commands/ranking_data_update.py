@@ -44,8 +44,8 @@ class Command(BaseCommand):
         return ac_json_data
 
     def get_submissions_json_data(self):
-        to_unix_time = int(timezone.now().timestamp())
-        from_unix_time = to_unix_time - (24*7 + 1) * 60 * 60
+        to_unix_time = int(timezone.now().timestamp())- (24*6) * 60 * 60
+        from_unix_time = to_unix_time - (24*26 + 1) * 60 * 60
         next_from_unix_time = from_unix_time
 
         is_added = set()
@@ -53,7 +53,7 @@ class Command(BaseCommand):
         for i in range(1000):
             api_submissions_url = "https://kenkoooo.com/atcoder/atcoder-api/v3/from/" + str(from_unix_time)
             api_submissions_response = requests.get(api_submissions_url)
-            print("hit API... " + str(i))
+            print("hit API... " + str(i+1))
             time.sleep(1)
             api_submissions_data = api_submissions_response.json()
 
@@ -128,6 +128,7 @@ class Command(BaseCommand):
         # 古い提出データの削除
         now_utc = timezone.now()
         delete_utc = now_utc - datetime.timedelta(days=31)
+        print('削除された提出データ数:{}'.format(Submission.objects.filter(submitted_at__lt=delete_utc).count()))
         Submission.objects.filter(submitted_at__lt=delete_utc).delete()
 
         print("complete")
