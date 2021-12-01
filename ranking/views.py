@@ -82,8 +82,8 @@ class RankingList(generic.ListView):
         self.submit_count = queryset.count()
 
         # check
-        print(queryset.order_by("submitted_at")[0])
-        print(queryset.order_by("-submitted_at")[0])
+        print(queryset.order_by("submitted_at")[:1])
+        print(queryset.order_by("-submitted_at")[:1])
 
         # 問題ごとの提出されたコード数の情報を持つquerysetを作成
         queryset = queryset.select_related().values(
