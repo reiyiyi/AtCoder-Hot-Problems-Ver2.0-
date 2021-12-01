@@ -53,9 +53,11 @@
 {% if request.GET.filter == "" or request.GET.period == "" or request.GET.filter == None or request.GET.period == None %}
 <p>AC数と集計期間を選択して、ランキングを見てみましょう</p>
 {% elif ranking_list|length == 0 %}
+<p>総コード数：{{ submit_count }}</p>
 <p style="text-align: right;">集計期間：{{ start_period }}～{{ end_period }}</p>
 <p>データが見つかりませんでした</p>
 {% else %}
+<p>総コード数：{{ submit_count }}</p>
 <p style="text-align: right;">集計期間：{{ start_period }}～{{ end_period }}</p>
 <table class="table table-striped" border="1">
     <tr>

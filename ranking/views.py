@@ -12,6 +12,7 @@ class RankingList(generic.ListView):
     ordering = "-total"
     start_period = None
     end_period = None
+    submit_count = -1
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -27,6 +28,7 @@ class RankingList(generic.ListView):
         context["period_list"] = [str(period) for period in range(1, 31)]
         context["start_period"] = self.start_period
         context["end_period"] = self.end_period
+        context["submit_count"] = self.submit_count
 
         return context
 
@@ -77,10 +79,11 @@ class RankingList(generic.ListView):
 
         self.start_period = from_jst
         self.end_period = to_jst
+        self.submit_count = queryset.count()
 
         # check
-        print(queryset.order_by("submitted_at")[:3])
-        print(queryset.order_by("-submitted_at")[:3])
+        print(queryset.order_by("submitted_at")[0])
+        print(queryset.order_by("-submitted_at")[0])
 
         # 問題ごとの提出されたコード数の情報を持つquerysetを作成
         queryset = queryset.select_related().values(
