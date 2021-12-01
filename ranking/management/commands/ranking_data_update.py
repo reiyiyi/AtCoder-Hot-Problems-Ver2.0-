@@ -45,7 +45,7 @@ class Command(BaseCommand):
 
     def get_submissions_json_data(self):
         to_unix_time = int(timezone.now().timestamp())- (24*6) * 60 * 60
-        from_unix_time = to_unix_time - (24*13 + 1) * 60 * 60
+        from_unix_time = to_unix_time - (24*7 + 1) * 60 * 60
         next_from_unix_time = from_unix_time
 
         is_added = set()
