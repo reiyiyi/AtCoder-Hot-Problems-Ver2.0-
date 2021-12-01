@@ -26,6 +26,7 @@ SECRET_KEY = os.environ["SECRET_KEY"]
 # Application definition
 
 INSTALLED_APPS = [
+    'whitenoise.runserver_nostatic',
     'ranking.apps.RankingConfig',
     'django.contrib.admin',
     'django.contrib.auth',
