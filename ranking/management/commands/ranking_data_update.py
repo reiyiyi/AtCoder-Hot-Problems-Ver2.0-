@@ -44,7 +44,7 @@ class Command(BaseCommand):
         return ac_json_data
 
     def get_submissions_json_data(self):
-        to_unix_time = int(timezone.now().timestamp())- (24*13) * 60 * 60
+        to_unix_time = int(timezone.now().timestamp())- (24*22) * 60 * 60
         from_unix_time = to_unix_time - (24*9 + 1) * 60 * 60
         next_from_unix_time = from_unix_time
 
