@@ -4,8 +4,8 @@
 {% block content %}
 <form action="" method="get">
     <div class="container">
-        <div class="row">
-            <div class="col-sm-4">
+        <div class="row justify-content-md-center">
+            <div class="col-md-3">
                 <div class="mb-3">
                     <label for="filter" class="form-label">AC数:</label>
                     <select name="filter" class="form-select">
@@ -24,7 +24,7 @@
                     </select>
                 </div>
             </div>
-            <div class="col-sm-4">
+            <div class="col-md-3">
                 <div class="mb-3">
                     <label for="period" class="form-label">集計期間(日):</label>
                     <select name="period" class="form-select">
@@ -43,7 +43,9 @@
                     </select>
                 </div>
             </div>
-            <div class="col-sm-4">
+        </div>
+        <div class="row">
+            <div class="col-md" style="text-align: center;">
                 <button type="submit" class="btn btn-danger">ランキング表示</button>
             </div>
         </div>
@@ -51,7 +53,18 @@
 </form>
 <hr>
 {% if request.GET.filter == "" or request.GET.period == "" or request.GET.filter == None or request.GET.period == None %}
-<p>AC数と集計期間を選択して、ランキングを見てみましょう</p>
+<p>AC数と集計期間を選択して、ランキングを見てみましょう！</p>
+
+<div class="card">
+    <div class="card-header">
+        AC数 とは
+    </div>
+    <div class="card-body">
+        <p>例えば、上記のAC数の0~199と書かれた項目を選択すると、AtCoderにて今まで正解した問題の数が0以上199以下の方々が集計期間内に提出したコードのみを集計したランキングを閲覧することができます。</p>
+        <p>そのため、「最近AtCoderを始めたけど、どういった問題を選んで取り組めばよいのかわからない」という悩みを少しでも抱えている方はこのランキングから、自分と同じくらいのAC数の人たちが取り組んでいる問題を見て、どの問題を選んで解くかを決める1つの参考材料にして欲しいと願っています。</p>
+    </div>
+</div>
+
 {% elif ranking_list|length == 0 %}
 <p>総コード数：{{ submit_count }}</p>
 <p style="text-align: right;">集計期間：{{ start_period }}～{{ end_period }}</p>
@@ -69,8 +82,8 @@
     {% for data in ranking_list %}
     <tr>
         <td>{{ forloop.counter }}位</td>
-        <td>{{ data.problem__contest_name }}</td>
-        <td>{{ data.problem__problem_name }}</td>
+        <td><a href="https://atcoder.jp/contests/{{ data.problem__contest_id }}" target="_blank">{{ data.problem__contest_name }}</a></td>
+        <td><a href="https://atcoder.jp/contests/{{ data.problem__contest_id }}/tasks/{{ data.problem__problem_id }}" target="_blank">{{ data.problem__problem_name }}</a></td>
         <td>{{ data.total }}</td>
     </tr>
     {% endfor %}
