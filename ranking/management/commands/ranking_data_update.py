@@ -50,10 +50,10 @@ class Command(BaseCommand):
 
         is_added = set()
         submissions_json_data = []
-        for _ in range(1000):
+        for i in range(1000):
             api_submissions_url = "https://kenkoooo.com/atcoder/atcoder-api/v3/from/" + str(from_unix_time)
             api_submissions_response = requests.get(api_submissions_url)
-            print("hit API...")
+            print("hit API... " + str(i))
             time.sleep(1)
             api_submissions_data = api_submissions_response.json()
 
@@ -83,6 +83,7 @@ class Command(BaseCommand):
         contests_json_data = self.get_contests_json_data()
         problems_json_data = self.get_problems_json_data()
         ac_json_data = self.get_ac_json_data()
+        print("success")
 
         # 問題データの追加
         problems = []
@@ -102,6 +103,7 @@ class Command(BaseCommand):
         print('追加された問題データ数:{}'.format(len(problems)))
 
         submissions_json_data = self.get_submissions_json_data()
+        print("success")
 
         # 提出データの追加
         submissions = []
@@ -128,4 +130,5 @@ class Command(BaseCommand):
         delete_utc = now_utc - datetime.timedelta(days=31)
         Submission.objects.filter(submitted_at__lt=delete_utc).delete()
 
+        print("complete")
         print('実行時間:{}秒'.format(time.time()-start))
