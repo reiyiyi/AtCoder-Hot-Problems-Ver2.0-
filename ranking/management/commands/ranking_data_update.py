@@ -30,16 +30,19 @@ class Command(BaseCommand):
         return api_problems_data
 
     def get_ac_json_data(self):
-        api_ac_url = "https://kenkoooo.com/atcoder/resources/ac.json"
-        api_ac_response = requests.get(api_ac_url)
-        print("hit API...")
-        time.sleep(1)
-        api_ac_data = api_ac_response.json()
         ac_json_data = dict()
+        for i in range(5000):
+            api_ac_url = "https://kenkoooo.com/atcoder/atcoder-api/v3/ac_ranking?" + f"from={i*1000}&to={(i+1)*1000}"
+            api_ac_response = requests.get(api_ac_url)
+            print("hit API...")
+            time.sleep(1)
+            api_ac_data = api_ac_response.json()
+            if len(api_ac_data) == 0:
+                break
 
-        # key:ユーザー名, value:AC数
-        for ac_data in api_ac_data:
-            ac_json_data[ac_data["user_id"]] = ac_data["problem_count"]
+            # key:ユーザー名, value:AC数
+            for ac_data in api_ac_data:
+                ac_json_data[ac_data["user_id"]] = ac_data["count"]
 
         return ac_json_data
 
